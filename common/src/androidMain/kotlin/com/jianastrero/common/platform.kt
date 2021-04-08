@@ -1,5 +1,5 @@
 package com.jianastrero.common
 
-actual fun getPlatformName(): String {
-    return "Android"
+actual fun getAppName(): String {
+    return "NHentai Android"
 }

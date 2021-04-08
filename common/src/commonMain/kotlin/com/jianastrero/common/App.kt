@@ -10,7 +10,7 @@ fun App() {
 
     MaterialTheme {
         Button(onClick = {
-            text = "Hello, ${getPlatformName()}"
+            text = "Welcome to ${getAppName()}"
         }) {
             Text(text)
         }
