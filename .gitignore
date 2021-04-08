@@ -1,0 +1,12 @@
+.idea
+*.iml
+.gradle
+.DS_Store
+local.properties
+.externalNativeBuild
+.cxx
+out
+build
+captures
+out
+*.log
