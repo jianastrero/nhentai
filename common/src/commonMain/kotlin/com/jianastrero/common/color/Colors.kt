@@ -1,4 +1,4 @@
-package com.jianastrero.common
+package com.jianastrero.common.color
 
 import androidx.compose.ui.graphics.Color
 
