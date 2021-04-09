@@ -1,7 +1,12 @@
-import com.jianastrero.common.App
-import androidx.compose.desktop.Window
-import com.jianastrero.common.getAppName
 
-fun main(args: Array<String>) = Window(getAppName()) {
-    App()
+import androidx.compose.desktop.LocalAppWindow
+import androidx.compose.desktop.Window
+import com.jianastrero.common.App
+
+fun main(args: Array<String>) {
+    Window() {
+        val window = LocalAppWindow.current
+
+        App { window.setTitle(it) }
+    }
 }
