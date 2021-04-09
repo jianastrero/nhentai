@@ -1,9 +1,13 @@
 package com.jianastrero.common.view
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.skija.Image
@@ -11,7 +15,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 @Composable
-actual fun UrlImage(url: String) {
+actual fun UrlImage(url: String, roundCornerSize: Int) {
 
     var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
 
@@ -25,6 +29,6 @@ actual fun UrlImage(url: String) {
     }
 
     if (imageBitmap != null) {
-        Image(imageBitmap!!, null)
+        Image(imageBitmap!!, null, modifier = Modifier.clip(RoundedCornerShape(roundCornerSize.dp)))
     }
 }
