@@ -2,7 +2,7 @@ package com.jianastrero.common.database
 
 import com.jianastrero.common.model.Manga
 
-object MapDatabase : IDatabase<Manga, String>{
+object MangaMapDatabase : IDatabase<Manga, String>{
 
     private val mangaMap: MutableMap<String, Manga> = mutableMapOf()
 
