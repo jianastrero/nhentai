@@ -13,6 +13,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 private const val HOME_TITLE = "nhentai: hentai doujinshi and manga"
+private const val HOME_URL = "https://nhentai.net/"
 
 @Composable
 fun App(onTitleChange: (String) -> Unit) {
@@ -20,7 +21,7 @@ fun App(onTitleChange: (String) -> Unit) {
     var document by remember { mutableStateOf<Document?>(null) }
     GlobalScope.launch {
         try {
-            document = Jsoup.connect("https://nhentai.net/g/354616/").get()
+            document = Jsoup.connect(HOME_URL).get()
         } catch (e: Exception) {
             e.printStackTrace()
         }
