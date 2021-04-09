@@ -20,7 +20,7 @@ dependencies {
 android {
     compileSdkVersion(29)
     defaultConfig {
-        applicationId = "com.jianastrero.android"
+        applicationId = "com.jianastrero.nhentai"
         minSdkVersion(24)
         targetSdkVersion(29)
         versionCode = 1

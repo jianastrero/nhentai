@@ -1,4 +1,4 @@
-package com.jianastrero.android
+package com.jianastrero.nhentai
 
 import com.jianastrero.common.App
 import android.os.Bundle
@@ -9,7 +9,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            App()
+            App{}
         }
     }
 }
