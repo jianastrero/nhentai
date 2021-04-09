@@ -11,7 +11,7 @@ data class Manga(
 
     fun url() = "${HOME_URL}g/$id"
 
-    fun galleryUrl() = "$GALLERY_URL$id/"
+    fun galleryUrl() = "$GALLERY_URL$galleryId/"
 
     fun thumbnailUrl() = "${galleryUrl()}thumb.jpg"
 }
