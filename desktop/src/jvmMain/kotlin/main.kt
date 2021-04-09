@@ -4,7 +4,7 @@ import androidx.compose.desktop.Window
 import com.jianastrero.common.App
 
 fun main(args: Array<String>) {
-    Window() {
+    Window {
         val window = LocalAppWindow.current
 
         App { window.setTitle(it) }

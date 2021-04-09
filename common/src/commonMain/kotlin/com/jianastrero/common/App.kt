@@ -1,12 +1,13 @@
 package com.jianastrero.common
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
@@ -28,17 +29,41 @@ fun App(onTitleChange: (String) -> Unit) {
     }
 
     NHentaiTheme {
-        Column {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+        ) {
             Breadcrumb(document, onTitleChange)
-            if (document?.title() == HOME_TITLE) {
-                Home()
-            }
+            document?.let { document ->
+                if (document.title() == HOME_TITLE) {
+                    Home(document)
+                }
+            } ?: NoInternetConnection()
         }
     }
 }
 
 @Composable
-fun Home() {
+fun NoInternetConnection() {
+    Box(
+        modifier = Modifier
+            .padding(24.dp)
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
+        Text(
+            "No Internet Connection",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .align(Alignment.Center)
+        )
+    }
+}
+
+@Composable
+fun Home(document: Document) {
     Column {
         Text("Home")
     }
@@ -63,15 +88,22 @@ fun Breadcrumb(document: Document?, onTitleChange: (String) -> Unit) {
 
     var text by remember { mutableStateOf("Welcome to NHentai") }
 
-    if (document?.title() == HOME_TITLE || document?.title() == null) {
-        onTitleChange("NHentai > Home")
-    } else {
-        val title = document.body()
-            .getElementsByClass("title").first()
-            .getElementsByClass("pretty").first()
-            .html()
-        text = "NHentai"
-        onTitleChange("NHentai > $title")
+    when {
+        document == null -> {
+            onTitleChange("NHentai :: Check your internet connection")
+            text = ""
+        }
+        document.title() == HOME_TITLE -> {
+            onTitleChange("NHentai > Home")
+        }
+        else -> {
+            val title = document.body()
+                .getElementsByClass("title").first()
+                .getElementsByClass("pretty").first()
+                .html()
+            text = "NHentai"
+            onTitleChange("NHentai > $title")
+        }
     }
 
     Row(
