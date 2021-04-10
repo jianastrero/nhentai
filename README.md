@@ -1,5 +1,7 @@
 # NHentai for Desktop and Android
-[![Made with Kotlin Badge](https://img.shields.io/badge/Made%20with-Kotlin-orange?style=for-the-badge&logo=kotlin&logoColor=white)](https://img.shields.io/badge/Made%20with-Kotlin-orange?style=for-the-badge&logo=kotlin&logoColor=white)
+[![Made with Kotlin Badge](https://img.shields.io/badge/Made%20with-Kotlin-orange?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
+[![Made without Pants](https://img.shields.io/badge/Made%20with-out%20Pants-red?style=for-the-badge)](https://github.com/jianastrero/nhentai)
+[![NSFW](https://img.shields.io/badge/NSFW-18+-red?style=for-the-badge)](https://github.com/jianastrero/nhentai)
 
 This project is dedicated into making a Desktop and Android version of NHentai. It utilizes HTML scalping from the main NHentai Website. It will provide the ability to browse and read manga from NHentai.
 
