@@ -18,7 +18,7 @@ class HomeViewModel {
     private var lastFetch = 0L
 
     var popularMangas = mutableListOf<Manga>()
-    var allManga = listOf<Manga>()
+    var allManga = mutableListOf<Manga>()
 
     fun fetch(block: (AppStatus, Document?) -> Unit) = GlobalScope.launch {
         if (System.currentTimeMillis() - lastFetch > SHOULD_REFETCH_COOLDOWN) {
@@ -30,7 +30,7 @@ class HomeViewModel {
                     .select(".index-popular")
                     .first()
 
-                popularNow?.getElementsByClass("gallery")?.forEach {
+                popularNow.getElementsByClass("gallery").forEach {
                     val id = it.getFirstElementByTag("a").attr("href").split("/")[2]
                     val img = it.getFirstElementByTag("img")
                         .attr("data-src")
@@ -44,6 +44,24 @@ class HomeViewModel {
                     val manga = Manga(id, galleryId, title, thumbnailExtension)
                     MangaMapDatabase.insert(manga)
                     popularMangas.add(manga)
+                }
+
+                popularNow.remove()
+
+                document.getElementsByClass("gallery").forEach {
+                    val id = it.getFirstElementByTag("a").attr("href").split("/")[2]
+                    val img = it.getFirstElementByTag("img")
+                        .attr("data-src")
+                        .replace("http://", "")
+                        .replace("https://", "")
+                        .split("/")
+                    val galleryId = img[2]
+                    val thumbnailExtension = img[3].split('.')[1]
+                    val title = it.getFirstElementByClass("caption").html()
+
+                    val manga = Manga(id, galleryId, title, thumbnailExtension)
+                    MangaMapDatabase.insert(manga)
+                    allManga.add(manga)
                 }
 
                 block(AppStatus.LOADED, document)
