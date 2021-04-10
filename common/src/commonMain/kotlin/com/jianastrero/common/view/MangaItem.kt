@@ -2,6 +2,7 @@ package com.jianastrero.common.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -14,32 +15,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.jianastrero.common.color.Amaranth800
-import com.jianastrero.common.extension.fetchImageBitmap
 import com.jianastrero.common.model.Manga
+import com.jianastrero.common.repository.ImageRepository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun MangaItem(item: Manga, fillWidth: Boolean = false) {
+fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3) {
 
     var thumb by remember { mutableStateOf<ImageBitmap?>(null) }
     var modifier by remember {
         mutableStateOf(
             Modifier
-                .background(Amaranth800, RoundedCornerShape(16.dp))
                 .width(240.dp)
-                .padding(8.dp)
         )
     }
 
     GlobalScope.launch {
-        thumb = item.thumbnailUrl().fetchImageBitmap()
+        thumb = ImageRepository.fetchImage(item.thumbnailUrl())
     }
 
     if (fillWidth) {
         modifier = Modifier
-            .background(Amaranth800, RoundedCornerShape(16.dp))
-            .padding(8.dp)
             .fillMaxWidth()
     }
 
@@ -48,6 +45,11 @@ fun MangaItem(item: Manga, fillWidth: Boolean = false) {
     ) {
         Column(
             modifier = modifier
+                .background(Amaranth800, RoundedCornerShape(16.dp))
+                .clickable {
+                    println("Manga Clicked: $item")
+                }
+                .padding(8.dp)
         ) {
             if (thumb != null) {
                 Image(
@@ -58,14 +60,24 @@ fun MangaItem(item: Manga, fillWidth: Boolean = false) {
                         .fillMaxWidth()
                 )
             }
-            Text(
-                item.title,
-                color = Color.White,
-                maxLines = 3,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
+            if (maxLines > 0) {
+                Text(
+                    item.title,
+                    color = Color.White,
+                    maxLines = maxLines,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            } else {
+                Text(
+                    item.title,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
     }
 }

@@ -73,7 +73,7 @@ fun AllManga(allManga: List<Manga>) {
                 .padding(8.dp, 0.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
-            allManga.forEach { MangaItem(it, true) }
+            allManga.forEach { MangaItem(it, true, 0) }
         }
     }
 }
