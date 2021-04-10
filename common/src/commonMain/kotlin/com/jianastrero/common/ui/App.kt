@@ -1,6 +1,7 @@
-package com.jianastrero.common
+package com.jianastrero.common.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -8,24 +9,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
+import com.jianastrero.common.enumeration.AppStatus
+import com.jianastrero.common.extension.getFirstElementByClass
+import com.jianastrero.common.theme.NHentaiTheme
 import org.jsoup.nodes.Document
 
-private const val HOME_TITLE = "nhentai: hentai doujinshi and manga"
-private const val HOME_URL = "https://nhentai.net/"
+internal const val HOME_TITLE = "nhentai: hentai doujinshi and manga"
+internal const val HOME_URL = "https://nhentai.net/"
+internal const val GALLERY_URL = "https://t.nhentai.net/galleries/"
 
 @Composable
 fun App(onTitleChange: (String) -> Unit) {
 
-    var document by remember { mutableStateOf<Document?>(null) }
-    GlobalScope.launch {
-        try {
-            document = Jsoup.connect(HOME_URL).get()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    var status by remember { mutableStateOf(AppStatus.LOADING) }
+    var appDocument by remember { mutableStateOf<Document?>(null) }
+
+    homeViewModel.fetch { appStatus, document ->
+        appDocument = document
+        status = appStatus
     }
 
     NHentaiTheme {
@@ -34,12 +35,15 @@ fun App(onTitleChange: (String) -> Unit) {
                 .fillMaxWidth()
                 .fillMaxHeight()
         ) {
-            Breadcrumb(document, onTitleChange)
-            document?.let { document ->
-                if (document.title() == HOME_TITLE) {
-                    Home(document)
+            Breadcrumb(appDocument, onTitleChange)
+            when (status) {
+                AppStatus.LOADING -> Loading()
+                AppStatus.LOADED -> Home { appStatus, document ->
+                    appDocument = document
+                    status = appStatus
                 }
-            } ?: NoInternetConnection()
+                AppStatus.NO_INTERNET_CONNECTION -> NoInternetConnection()
+            }
         }
     }
 }
@@ -63,9 +67,17 @@ fun NoInternetConnection() {
 }
 
 @Composable
-fun Home(document: Document) {
-    Column {
-        Text("Home")
+fun Loading() {
+    Box(
+        modifier = Modifier
+            .padding(24.dp)
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .align(Alignment.Center)
+        )
     }
 }
 
@@ -95,11 +107,12 @@ fun Breadcrumb(document: Document?, onTitleChange: (String) -> Unit) {
         }
         document.title() == HOME_TITLE -> {
             onTitleChange("NHentai > Home")
+            text = "Welcome to NHentai"
         }
         else -> {
             val title = document.body()
-                .getElementsByClass("title").first()
-                .getElementsByClass("pretty").first()
+                .getFirstElementByClass("title")
+                .getFirstElementByClass("pretty")
                 .html()
             text = "NHentai"
             onTitleChange("NHentai > $title")
@@ -110,7 +123,6 @@ fun Breadcrumb(document: Document?, onTitleChange: (String) -> Unit) {
         modifier = Modifier
             .padding(8.dp)
     ) {
-
         Text(text)
     }
 }
