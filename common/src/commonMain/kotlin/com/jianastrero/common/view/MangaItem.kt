@@ -21,7 +21,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3) {
+fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3, onClick: () -> Unit) {
 
     var thumb by remember { mutableStateOf<ImageBitmap?>(null) }
     var modifier by remember {
@@ -47,7 +47,7 @@ fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3) {
             modifier = modifier
                 .background(Amaranth800, RoundedCornerShape(16.dp))
                 .clickable {
-                    println("Manga Clicked: $item")
+                    onClick()
                 }
                 .padding(8.dp)
         ) {

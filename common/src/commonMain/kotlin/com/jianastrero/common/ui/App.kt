@@ -35,10 +35,15 @@ fun App(onTitleChange: (String) -> Unit) {
             Breadcrumb(appDocument, onTitleChange)
             when (status) {
                 AppStatus.LOADING -> Loading()
-                AppStatus.LOADED -> Home { appStatus, document ->
-                    appDocument = document
-                    status = appStatus
-                }
+                AppStatus.LOADED -> Home(
+                    block = { appStatus, document ->
+                        appDocument = document
+                        status = appStatus
+                    },
+                    onItemClick = { item ->
+                        println("Manga Clicked: $item")
+                    }
+                )
                 AppStatus.NO_INTERNET_CONNECTION -> NoInternetConnection()
             }
         }

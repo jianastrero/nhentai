@@ -22,7 +22,7 @@ import org.jsoup.nodes.Document
 internal val homeViewModel = HomeViewModel()
 
 @Composable
-fun Home(block: (AppStatus, Document?) -> Unit) {
+fun Home(block: (AppStatus, Document?) -> Unit, onItemClick: (Manga) -> Unit) {
 
     homeViewModel.fetch(block)
 
@@ -31,14 +31,14 @@ fun Home(block: (AppStatus, Document?) -> Unit) {
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
-        PopularManga(homeViewModel.popularMangas)
+        PopularManga(homeViewModel.popularMangas, onItemClick)
         Spacer(modifier = Modifier.height(32.dp))
-        AllManga(homeViewModel.allManga)
+        AllManga(homeViewModel.allManga, onItemClick)
     }
 }
 
 @Composable
-fun PopularManga(popularMangas: List<Manga>) {
+fun PopularManga(popularMangas: List<Manga>, onItemClick: (Manga) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,13 +49,17 @@ fun PopularManga(popularMangas: List<Manga>) {
                 .align(Alignment.CenterHorizontally)
                 .padding(8.dp, 0.dp)
         ) {
-            items(popularMangas) { MangaItem(it) }
+            items(popularMangas) {
+                MangaItem(it) {
+                    onItemClick(it)
+                }
+            }
         }
     }
 }
 
 @Composable
-fun AllManga(allManga: List<Manga>) {
+fun AllManga(allManga: List<Manga>, onItemClick: (Manga) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -71,7 +75,11 @@ fun AllManga(allManga: List<Manga>) {
                 .padding(8.dp, 0.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
-            allManga.forEach { MangaItem(it, true, 0) }
+            allManga.forEach {
+                MangaItem(it, true, 0) {
+                    onItemClick(it)
+                }
+            }
         }
     }
 }
