@@ -1,11 +1,11 @@
 package com.jianastrero.common.viewmodel
 
+import com.jianastrero.HOME_URL
 import com.jianastrero.common.database.MangaMapDatabase
 import com.jianastrero.common.enumeration.AppStatus
 import com.jianastrero.common.extension.getFirstElementByClass
 import com.jianastrero.common.extension.getFirstElementByTag
 import com.jianastrero.common.model.Manga
-import com.jianastrero.common.ui.HOME_URL
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup

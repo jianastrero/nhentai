@@ -1,7 +1,7 @@
 package com.jianastrero.common.model
 
-import com.jianastrero.common.ui.GALLERY_URL
-import com.jianastrero.common.ui.HOME_URL
+import com.jianastrero.GALLERY_URL
+import com.jianastrero.HOME_URL
 
 data class Manga(
     val id: String,

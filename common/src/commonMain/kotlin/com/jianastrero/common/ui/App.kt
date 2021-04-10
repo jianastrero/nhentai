@@ -9,14 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.jianastrero.HOME_TITLE
 import com.jianastrero.common.enumeration.AppStatus
 import com.jianastrero.common.extension.getFirstElementByClass
 import com.jianastrero.common.theme.NHentaiTheme
 import org.jsoup.nodes.Document
-
-internal const val HOME_TITLE = "nhentai: hentai doujinshi and manga"
-internal const val HOME_URL = "https://nhentai.net/"
-internal const val GALLERY_URL = "https://t.nhentai.net/galleries/"
 
 @Composable
 fun App(onTitleChange: (String) -> Unit) {
