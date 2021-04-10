@@ -10,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jianastrero.HOME_TITLE
+import com.jianastrero.common.enumeration.AppState
 import com.jianastrero.common.enumeration.AppStatus
 import com.jianastrero.common.extension.getFirstElementByClass
 import com.jianastrero.common.theme.NHentaiTheme
@@ -19,12 +20,16 @@ import org.jsoup.nodes.Document
 fun App(onTitleChange: (String) -> Unit) {
 
     var status by remember { mutableStateOf(AppStatus.LOADING) }
+    var state by remember { mutableStateOf(AppState.NONE) }
     var appDocument by remember { mutableStateOf<Document?>(null) }
 
-    homeViewModel.fetch { appStatus, document ->
+    val homeBlock: (AppStatus, Document?) -> Unit = { appStatus, document ->
         appDocument = document
+        state = AppState.HOME
         status = appStatus
     }
+
+    homeViewModel.fetch(homeBlock)
 
     NHentaiTheme {
         Column(
@@ -35,18 +40,24 @@ fun App(onTitleChange: (String) -> Unit) {
             Breadcrumb(appDocument, onTitleChange)
             when (status) {
                 AppStatus.LOADING -> Loading()
-                AppStatus.LOADED -> Home(
-                    block = { appStatus, document ->
-                        appDocument = document
-                        status = appStatus
-                    },
-                    onItemClick = { item ->
-                        println("Manga Clicked: $item")
-                    }
-                )
+                AppStatus.LOADED -> gotoState(state, homeBlock)
                 AppStatus.NO_INTERNET_CONNECTION -> NoInternetConnection()
             }
         }
+    }
+}
+
+@Composable
+fun gotoState(state: AppState, homeBlock: (AppStatus, Document?) -> Unit) {
+    when (state) {
+        AppState.NONE -> NoInternetConnection()
+        AppState.HOME -> Home(
+            block = homeBlock,
+            onItemClick = { item ->
+                println("Manga Clicked: $item")
+            }
+        )
+        AppState.VIEW_MANGA_DETAILS -> ViewMangaDetails()
     }
 }
 
@@ -80,13 +91,6 @@ fun Loading() {
             modifier = Modifier
                 .align(Alignment.Center)
         )
-    }
-}
-
-@Composable
-fun ViewMangaDetails() {
-    Column {
-        Text("View Manga Details")
     }
 }
 
