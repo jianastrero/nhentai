@@ -3,8 +3,12 @@ package com.jianastrero.common.ui
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.jianastrero.common.controller.HOME_CONTROLLER
 import com.jianastrero.common.extension.mandatoryDelay
 import com.jianastrero.common.model.Tag
 import com.jianastrero.common.repository.ImageRepository
@@ -29,10 +34,17 @@ internal val viewMangaDetailsViewModel = ViewMangaDetailsViewModel()
 fun ViewMangaDetails() {
 
     var thumb by remember { mutableStateOf<ImageBitmap?>(null) }
+    var isClicked by remember { mutableStateOf(false) }
 
     GlobalScope.launch {
         mandatoryDelay()
-        thumb = ImageRepository.fetchImage(viewMangaDetailsViewModel.manga.thumbnailUrl())
+        if (thumb == null) {
+            thumb = ImageRepository.fetchImage(viewMangaDetailsViewModel.manga.thumbnailUrl())
+        }
+    }
+
+    if (isClicked) {
+        StateMachine.start(HOME_CONTROLLER)
     }
 
     Column(
@@ -40,8 +52,26 @@ fun ViewMangaDetails() {
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
-        Header(viewMangaDetailsViewModel.manga.title)
+        TopAppBar(
+            title = {
+                Text(
+                    "NHentai > ${viewMangaDetailsViewModel.manga.title}",
+                    maxLines = 1
+                )
+            },
+            navigationIcon = {
+                 Icon(
+                     Icons.Filled.ArrowBack,
+                     null,
+                     modifier = Modifier
+                         .clickable {
+                             isClicked = true
+                         }
+                 )
+            },
+            backgroundColor = MaterialTheme.colors.primary,
+            elevation = 8.dp
+        )
         Spacer(modifier = Modifier.height(32.dp))
         Row(
             modifier = Modifier
@@ -75,9 +105,9 @@ fun ViewMangaDetails() {
                 KeyValue("Pages", viewMangaDetailsViewModel.pages.toString())
             }
         }
+        Spacer(modifier = Modifier.height(32.dp))
+        Header(viewMangaDetailsViewModel.manga.title)
     }
-
-    StateMachine.finish()
 }
 
 @Composable
@@ -100,7 +130,6 @@ fun KeyValue(key: String, value: String) {
 
 @Composable
 fun KeyValue(key: String, tags: List<Tag>) {
-    println("tag: ${tags.size}")
     Column {
         Row {
             Spacer(

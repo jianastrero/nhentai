@@ -43,8 +43,6 @@ fun Home() {
         Spacer(modifier = Modifier.height(32.dp))
         AllManga(homeViewModel.allManga)
     }
-
-    StateMachine.finish()
 }
 
 @Composable

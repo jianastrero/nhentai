@@ -42,18 +42,14 @@ class ViewMangaDetailsViewModel {
                     try {
                         val document = Jsoup.connect(manga.url()).get()
 
-                    println(document.html())
-
-                        val _tags = document
+                        document
                             .getElementById("tags")
                             .getElementsByClass("tag-container")
-
-                        _tags.forEach {
+                            .forEach {
                             var title: String
                             val list = mutableListOf<Tag>()
                             it.also {
                                 title = it.html().subSequence(0, it.html().indexOf(':')).trim().toString()
-                                println("title: $title")
                             }.getFirstElementByClass("tags")
                                 .getElementsByTag("a")
                                 .forEach {

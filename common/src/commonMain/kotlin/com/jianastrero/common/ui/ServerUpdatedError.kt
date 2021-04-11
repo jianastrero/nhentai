@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jianastrero.common.statemachine.StateMachine
 
 @Composable
 fun ServerUpdatedError() {
@@ -29,6 +28,4 @@ fun ServerUpdatedError() {
                 .align(Alignment.Center)
         )
     }
-
-    StateMachine.finish()
 }
