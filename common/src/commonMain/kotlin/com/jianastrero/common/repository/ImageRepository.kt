@@ -8,7 +8,13 @@ object ImageRepository {
     private val cache = mutableMapOf<String, ImageBitmap>()
 
     suspend fun fetchImage(url: String): ImageBitmap? {
-        return url.fetchImageBitmap()
+        return if (cache.containsKey(url)) {
+            cache[url]
+        } else {
+            url.fetchImageBitmap()?.also {
+                cache[url] = it
+            }
+        }
     }
 
 }
