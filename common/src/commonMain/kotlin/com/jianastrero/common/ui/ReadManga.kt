@@ -81,6 +81,7 @@ fun ReadManga() {
             if (page != 0 && readMangaViewModel.cachedImages.containsKey(page)) {
                 Column(
                     modifier = Modifier
+                        .align(Alignment.Center)
                         .verticalScroll(rememberScrollState())
                 ) {
                     Image(
