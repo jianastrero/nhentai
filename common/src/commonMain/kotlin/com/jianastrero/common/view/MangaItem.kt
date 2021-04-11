@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.jianastrero.common.color.Amaranth800
 import com.jianastrero.common.model.Manga
 import com.jianastrero.common.repository.ImageRepository
+import com.jianastrero.common.ui.viewMangaDetailsViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -40,6 +41,7 @@ fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3, onClic
     }
 
     if (isClicked) {
+        viewMangaDetailsViewModel.manga = item
         onClick()
     }
 
