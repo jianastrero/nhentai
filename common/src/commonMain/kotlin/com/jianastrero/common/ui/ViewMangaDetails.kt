@@ -19,9 +19,11 @@ import androidx.compose.ui.unit.dp
 import com.jianastrero.common.color.Red300
 import com.jianastrero.common.controller.HOME_CONTROLLER
 import com.jianastrero.common.controller.READ_MANGA_CONTROLLER
+import com.jianastrero.common.enumeration.Platform
 import com.jianastrero.common.extension.mandatoryDelay
 import com.jianastrero.common.model.MySnackbarData
 import com.jianastrero.common.model.Tag
+import com.jianastrero.common.platform.getPlatform
 import com.jianastrero.common.repository.ImageRepository
 import com.jianastrero.common.statemachine.StateMachine
 import com.jianastrero.common.view.Header
@@ -87,37 +89,9 @@ fun ViewMangaDetails() {
                 elevation = 8.dp
             )
             Spacer(modifier = Modifier.height(32.dp))
-            Row(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                if (thumb != null) {
-                    Image(
-                        thumb!!,
-                        null,
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .background(color = MaterialTheme.colors.primary)
-                            .padding(4.dp)
-                            .width(320.dp)
-                    )
-                }
-                Column(
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .padding(8.dp)
-                        .width(320.dp)
-                ){
-                    KeyValue("#", viewMangaDetailsViewModel.manga.id)
-
-                    viewMangaDetailsViewModel.tags.forEach {
-                        if (it.tags.isNotEmpty()) {
-                            KeyValue(it.tagTitle, it.tags)
-                        }
-                    }
-
-                    KeyValue("Pages", viewMangaDetailsViewModel.pages.toString())
-                }
+            when(getPlatform()) {
+                Platform.DESKTOP -> viewMangaDesktop(thumb)
+                Platform.ANDROID -> viewMangaAndroid(thumb)
             }
             Spacer(modifier = Modifier.height(32.dp))
             Header(viewMangaDetailsViewModel.manga.title)
@@ -168,6 +142,84 @@ fun ViewMangaDetails() {
         }
         if (snackBarData != null) {
             ShowSnackbar(snackBarData!!)
+        }
+    }
+}
+
+@Composable
+fun viewMangaDesktop(thumb: ImageBitmap?) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+        ) {
+            if (thumb != null) {
+                Image(
+                    thumb,
+                    null,
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .background(color = MaterialTheme.colors.primary)
+                        .padding(4.dp)
+                        .width(320.dp)
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(8.dp)
+                    .width(320.dp)
+            ){
+                KeyValue("#", viewMangaDetailsViewModel.manga.id)
+
+                viewMangaDetailsViewModel.tags.forEach {
+                    if (it.tags.isNotEmpty()) {
+                        KeyValue(it.tagTitle, it.tags)
+                    }
+                }
+
+                KeyValue("Pages", viewMangaDetailsViewModel.pages.toString())
+            }
+        }
+    }
+}
+
+@Composable
+fun viewMangaAndroid(thumb: ImageBitmap?) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        if (thumb != null) {
+            Image(
+                thumb,
+                null,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .background(color = MaterialTheme.colors.primary)
+                    .padding(4.dp)
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+            )
+        }
+        Column(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(8.dp)
+                .fillMaxWidth()
+        ){
+            KeyValue("#", viewMangaDetailsViewModel.manga.id)
+
+            viewMangaDetailsViewModel.tags.forEach {
+                if (it.tags.isNotEmpty()) {
+                    KeyValue(it.tagTitle, it.tags)
+                }
+            }
+
+            KeyValue("Pages", viewMangaDetailsViewModel.pages.toString())
         }
     }
 }
