@@ -30,6 +30,9 @@ class HomeViewModel {
             else -> {
                 GlobalScope.launch {
                     state = try {
+                        popularMangas.clear()
+                        allManga.clear()
+
                         val document = Jsoup.connect(HOME_URL).get()
 
                         val popularNow = document
