@@ -39,7 +39,7 @@ class ViewMangaDetailsViewModel {
                 pages = 0
 
                 GlobalScope.launch {
-                    try {
+                    state = try {
                         val document = Jsoup.connect(manga.url()).get()
 
                         document
@@ -69,10 +69,10 @@ class ViewMangaDetailsViewModel {
                             tags.add(TagList(title, list))
                         }
 
-                        state = 1
+                        1
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        state = 0
+                        0
                     }
                 }
             }

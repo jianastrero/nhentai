@@ -1,7 +1,8 @@
 package com.jianastrero.common.model
 
-import com.jianastrero.GALLERY_URL
 import com.jianastrero.HOME_URL
+import com.jianastrero.IMAGE_GALLERY_URL
+import com.jianastrero.THUMBNAIL_GALLERY_URL
 
 data class Manga(
     val id: String,
@@ -12,7 +13,11 @@ data class Manga(
 
     fun url() = "${HOME_URL}g/$id"
 
-    fun galleryUrl() = "$GALLERY_URL$galleryId/"
+    fun thumbnailGalleryUrl() = "$THUMBNAIL_GALLERY_URL$galleryId/"
 
-    fun thumbnailUrl() = "${galleryUrl()}thumb.$thumbnailExtension"
+    fun imageGalleryUrl() = "$IMAGE_GALLERY_URL$galleryId/"
+
+    fun thumbnailUrl() = "${thumbnailGalleryUrl()}thumb.$thumbnailExtension"
+
+    fun imageUrl(pageNumber: Int) = "${imageGalleryUrl()}$pageNumber.$thumbnailExtension"
 }

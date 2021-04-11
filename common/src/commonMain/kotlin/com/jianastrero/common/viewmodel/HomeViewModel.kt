@@ -29,7 +29,7 @@ class HomeViewModel {
             1 -> StateMachine.nextState()
             else -> {
                 GlobalScope.launch {
-                    try {
+                    state = try {
                         val document = Jsoup.connect(HOME_URL).get()
 
                         val popularNow = document
@@ -70,10 +70,10 @@ class HomeViewModel {
                             MangaMapDatabase.insert(manga)
                             allManga.add(manga)
                         }
-                        state = 1
+                        1
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        state = 0
+                        0
                     }
                 }
             }
