@@ -1,6 +1,7 @@
 package com.jianastrero.common.state
 
 import androidx.compose.runtime.*
+import com.jianastrero.common.extension.mandatoryDelay
 import com.jianastrero.common.model.State
 import com.jianastrero.common.statemachine.StateMachine
 import com.jianastrero.common.ui.Loading
@@ -21,16 +22,16 @@ fun checkInternetConnection() {
     var status by remember { mutableStateOf(-1) }
 
     GlobalScope.launch {
-        var connection: HttpURLConnection? = null
+        mandatoryDelay()
+        val connection: HttpURLConnection
         try {
             connection = URL("https://www.google.com/").openConnection() as HttpURLConnection
+            connection.connectTimeout = 1000
             connection.connect()
             status = 1
         } catch (e: Exception) {
             e.printStackTrace()
             status = 0
-        } finally {
-            connection?.disconnect()
         }
     }
 
