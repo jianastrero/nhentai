@@ -23,7 +23,7 @@ import com.jianastrero.common.view.MangaItem
 import com.jianastrero.common.view.StaggeredVerticalGrid
 import com.jianastrero.common.viewmodel.HomeViewModel
 
-internal val homeViewModel = HomeViewModel()
+val homeViewModel = HomeViewModel()
 
 @Composable
 fun Home() {
@@ -52,14 +52,32 @@ fun PopularManga(popularMangas: List<Manga>) {
             .fillMaxWidth()
     ) {
         Header("Popular Now")
-        LazyRow(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(8.dp, 0.dp)
-        ) {
-            items(popularMangas) {
-                MangaItem(it) {
-                    StateMachine.start(VIEW_MANGA_DETAILS_CONTROLLER)
+        when (getPlatform()) {
+            Platform.ANDROID -> {
+                LazyRow(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(8.dp, 0.dp)
+                ) {
+                    items(popularMangas) {
+                        MangaItem(it) {
+                            StateMachine.start(VIEW_MANGA_DETAILS_CONTROLLER)
+                        }
+                    }
+                }
+            }
+            Platform.DESKTOP -> {
+                StaggeredVerticalGrid(
+                    maxColumnWidth = 320.dp,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(8.dp, 0.dp)
+                ) {
+                    popularMangas.forEach {
+                        MangaItem(it, true, 0) {
+                            StateMachine.start(VIEW_MANGA_DETAILS_CONTROLLER)
+                        }
+                    }
                 }
             }
         }
@@ -81,7 +99,6 @@ fun AllManga(allManga: List<Manga>) {
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(8.dp, 0.dp)
-                .align(Alignment.CenterHorizontally)
         ) {
             allManga.forEach {
                 MangaItem(it, true, 0) {
