@@ -42,6 +42,13 @@ fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3, onClic
         onClick()
     }
 
+    GlobalScope.launch {
+        mandatoryDelay()
+        if (thumb == null) {
+            thumb = ImageRepository.fetchImage(item.thumbnailUrl())
+        }
+    }
+
     Box(
         modifier = Modifier.padding(4.dp)
     ) {
@@ -81,10 +88,5 @@ fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3, onClic
                 )
             }
         }
-    }
-
-    GlobalScope.launch {
-        mandatoryDelay()
-        thumb = ImageRepository.fetchImage(item.thumbnailUrl())
     }
 }
