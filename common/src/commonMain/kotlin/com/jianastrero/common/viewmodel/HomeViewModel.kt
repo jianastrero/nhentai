@@ -12,62 +12,54 @@ import org.jsoup.Jsoup
 
 class HomeViewModel {
 
-    private val SHOULD_REFETCH_COOLDOWN = 5 * 1000
-
-    private var lastFetch = 0L
-
     var popularMangas = mutableListOf<Manga>()
     var allManga = mutableListOf<Manga>()
 
     @Composable
     fun fetch(onFinish: () -> Unit) = GlobalScope.launch {
-        if (System.currentTimeMillis() - lastFetch > SHOULD_REFETCH_COOLDOWN) {
-            try {
-                val document = Jsoup.connect(HOME_URL).get()
+        try {
+            val document = Jsoup.connect(HOME_URL).get()
 
-                val popularNow = document
-                    .select(".index-container")
-                    .select(".index-popular")
-                    .first()
+            val popularNow = document
+                .select(".index-container")
+                .select(".index-popular")
+                .first()
 
-                popularNow.getElementsByClass("gallery").forEach {
-                    val id = it.getFirstElementByTag("a").attr("href").split("/")[2]
-                    val img = it.getFirstElementByTag("img")
-                        .attr("data-src")
-                        .replace("http://", "")
-                        .replace("https://", "")
-                        .split("/")
-                    val galleryId = img[2]
-                    val thumbnailExtension = img[3].split('.')[1]
-                    val title = it.getFirstElementByClass("caption").html()
+            popularNow.getElementsByClass("gallery").forEach {
+                val id = it.getFirstElementByTag("a").attr("href").split("/")[2]
+                val img = it.getFirstElementByTag("img")
+                    .attr("data-src")
+                    .replace("http://", "")
+                    .replace("https://", "")
+                    .split("/")
+                val galleryId = img[2]
+                val thumbnailExtension = img[3].split('.')[1]
+                val title = it.getFirstElementByClass("caption").html()
 
-                    val manga = Manga(id, galleryId, title, thumbnailExtension)
-                    MangaMapDatabase.insert(manga)
-                    popularMangas.add(manga)
-                }
-
-                popularNow.remove()
-
-                document.getElementsByClass("gallery").forEach {
-                    val id = it.getFirstElementByTag("a").attr("href").split("/")[2]
-                    val img = it.getFirstElementByTag("img")
-                        .attr("data-src")
-                        .replace("http://", "")
-                        .replace("https://", "")
-                        .split("/")
-                    val galleryId = img[2]
-                    val thumbnailExtension = img[3].split('.')[1]
-                    val title = it.getFirstElementByClass("caption").html()
-
-                    val manga = Manga(id, galleryId, title, thumbnailExtension)
-                    MangaMapDatabase.insert(manga)
-                    allManga.add(manga)
-                }
-
-                lastFetch = System.currentTimeMillis()
-            } catch (e: Exception) {
-                e.printStackTrace()
+                val manga = Manga(id, galleryId, title, thumbnailExtension)
+                MangaMapDatabase.insert(manga)
+                popularMangas.add(manga)
             }
+
+            popularNow.remove()
+
+            document.getElementsByClass("gallery").forEach {
+                val id = it.getFirstElementByTag("a").attr("href").split("/")[2]
+                val img = it.getFirstElementByTag("img")
+                    .attr("data-src")
+                    .replace("http://", "")
+                    .replace("https://", "")
+                    .split("/")
+                val galleryId = img[2]
+                val thumbnailExtension = img[3].split('.')[1]
+                val title = it.getFirstElementByClass("caption").html()
+
+                val manga = Manga(id, galleryId, title, thumbnailExtension)
+                MangaMapDatabase.insert(manga)
+                allManga.add(manga)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         onFinish()
     }

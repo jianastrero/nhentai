@@ -17,7 +17,9 @@ fun App(onTitleChange: (String) -> Unit) {
                 .fillMaxWidth()
                 .fillMaxHeight()
         ) {
-            StateMachine.start(HOME_CONTROLLER)
+            StateMachine.stateHolder()
         }
     }
+
+    StateMachine.start(HOME_CONTROLLER)
 }
