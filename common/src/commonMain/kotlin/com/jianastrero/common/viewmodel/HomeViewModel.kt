@@ -2,10 +2,12 @@ package com.jianastrero.common.viewmodel
 
 import androidx.compose.runtime.Composable
 import com.jianastrero.HOME_URL
+import com.jianastrero.common.controller.SERVER_UPDATED_ERROR_CONTROLLER
 import com.jianastrero.common.database.MangaMapDatabase
 import com.jianastrero.common.extension.getFirstElementByClass
 import com.jianastrero.common.extension.getFirstElementByTag
 import com.jianastrero.common.model.Manga
+import com.jianastrero.common.statemachine.StateMachine
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
@@ -60,6 +62,8 @@ class HomeViewModel {
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            StateMachine.finish()
+            StateMachine.start(SERVER_UPDATED_ERROR_CONTROLLER)
         }
         onFinish()
     }

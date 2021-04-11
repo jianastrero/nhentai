@@ -38,7 +38,6 @@ fun checkInternetConnection() {
         -1 -> Loading()
         0 -> {
             NoInternetConnection()
-            StateMachine.finish()
         }
         1 -> {
             StateMachine.nextState()

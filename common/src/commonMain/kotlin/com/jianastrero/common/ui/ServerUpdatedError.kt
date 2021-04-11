@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 import com.jianastrero.common.statemachine.StateMachine
 
 @Composable
-fun NoInternetConnection() {
+fun ServerUpdatedError() {
     Box(
         modifier = Modifier
             .padding(24.dp)
@@ -22,7 +22,7 @@ fun NoInternetConnection() {
             .fillMaxHeight()
     ) {
         Text(
-            "No Internet Connection",
+            "Server has updated, please wait for an app update :)",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
