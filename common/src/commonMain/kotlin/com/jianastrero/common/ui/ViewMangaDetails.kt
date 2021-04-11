@@ -68,27 +68,7 @@ fun ViewMangaDetails() {
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
-            TopAppBar(
-                title = {
-                    Text(
-                        "NHentai > ${viewMangaDetailsViewModel.manga.title}",
-                        maxLines = 1
-                    )
-                },
-                navigationIcon = {
-                    Icon(
-                        Icons.Default.ArrowBack,
-                        null,
-                        modifier = Modifier
-                            .clickable {
-                                isBackClicked = true
-                            }
-                    )
-                },
-                backgroundColor = MaterialTheme.colors.primary,
-                elevation = 8.dp
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(80.dp))
             when(getPlatform()) {
                 Platform.DESKTOP -> viewMangaDesktop(thumb)
                 Platform.ANDROID -> viewMangaAndroid(thumb)
@@ -143,6 +123,26 @@ fun ViewMangaDetails() {
         if (snackBarData != null) {
             ShowSnackbar(snackBarData!!)
         }
+        TopAppBar(
+            title = {
+                Text(
+                    "NHentai > ${viewMangaDetailsViewModel.manga.title}",
+                    maxLines = 1
+                )
+            },
+            navigationIcon = {
+                Icon(
+                    Icons.Default.ArrowBack,
+                    null,
+                    modifier = Modifier
+                        .clickable {
+                            isBackClicked = true
+                        }
+                )
+            },
+            backgroundColor = MaterialTheme.colors.primary,
+            elevation = 8.dp
+        )
     }
 }
 

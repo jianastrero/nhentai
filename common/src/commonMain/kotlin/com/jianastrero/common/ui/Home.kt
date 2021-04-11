@@ -27,11 +27,17 @@ val homeViewModel = HomeViewModel()
 
 @Composable
 fun Home() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-    ) {
+    Box {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) {
+            Spacer(modifier = Modifier.height(80.dp))
+            PopularManga(homeViewModel.popularMangas)
+            Spacer(modifier = Modifier.height(32.dp))
+            AllManga(homeViewModel.allManga)
+        }
         TopAppBar(
             title = {
                 Text("Welcome to ${getAppName()}")
@@ -39,9 +45,6 @@ fun Home() {
             backgroundColor = MaterialTheme.colors.primary,
             elevation = 8.dp
         )
-        PopularManga(homeViewModel.popularMangas)
-        Spacer(modifier = Modifier.height(32.dp))
-        AllManga(homeViewModel.allManga)
     }
 }
 
