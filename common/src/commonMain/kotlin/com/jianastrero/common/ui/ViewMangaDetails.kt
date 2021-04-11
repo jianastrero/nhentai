@@ -148,8 +148,8 @@ fun ViewMangaDetails() {
                     onClick = {
                         snackBarData = MySnackbarData(
                             "Download will be added in a future release",
-                            Red300,
-                            Color.Black
+                            Red300, // MaterialTheme.colors.error
+                            Color.Black // MaterialTheme.colors.onError
                         )
                     },
                     modifier = Modifier.weight(1f)

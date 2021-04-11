@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -14,7 +15,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.jianastrero.common.color.Amaranth800
 import com.jianastrero.common.extension.mandatoryDelay
 import com.jianastrero.common.model.Manga
 import com.jianastrero.common.repository.ImageRepository
@@ -54,7 +54,7 @@ fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3, onClic
     ) {
         Column(
             modifier = modifier
-                .background(Amaranth800, RoundedCornerShape(16.dp))
+                .background(MaterialTheme.colors.primaryVariant, RoundedCornerShape(16.dp))
                 .clickable {
                     isClicked = true
                 }
