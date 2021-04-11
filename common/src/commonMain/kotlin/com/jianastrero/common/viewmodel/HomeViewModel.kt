@@ -1,6 +1,6 @@
 package com.jianastrero.common.viewmodel
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import com.jianastrero.HOME_URL
 import com.jianastrero.common.controller.SERVER_UPDATED_ERROR_CONTROLLER
 import com.jianastrero.common.database.MangaMapDatabase
@@ -18,53 +18,63 @@ class HomeViewModel {
     var allManga = mutableListOf<Manga>()
 
     @Composable
-    fun fetch(onFinish: () -> Unit) = GlobalScope.launch {
-        try {
-            val document = Jsoup.connect(HOME_URL).get()
+    fun fetch() {
+        var state by remember { mutableStateOf(-1) }
 
-            val popularNow = document
-                .select(".index-container")
-                .select(".index-popular")
-                .first()
+        GlobalScope.launch {
+            try {
+                val document = Jsoup.connect(HOME_URL).get()
 
-            popularNow.getElementsByClass("gallery").forEach {
-                val id = it.getFirstElementByTag("a").attr("href").split("/")[2]
-                val img = it.getFirstElementByTag("img")
-                    .attr("data-src")
-                    .replace("http://", "")
-                    .replace("https://", "")
-                    .split("/")
-                val galleryId = img[2]
-                val thumbnailExtension = img[3].split('.')[1]
-                val title = it.getFirstElementByClass("caption").html()
+                val popularNow = document
+                    .select(".index-container")
+                    .select(".index-popular")
+                    .first()
 
-                val manga = Manga(id, galleryId, title, thumbnailExtension)
-                MangaMapDatabase.insert(manga)
-                popularMangas.add(manga)
+                popularNow.getElementsByClass("gallery").forEach {
+                    val id = it.getFirstElementByTag("a").attr("href").split("/")[2]
+                    val img = it.getFirstElementByTag("img")
+                        .attr("data-src")
+                        .replace("http://", "")
+                        .replace("https://", "")
+                        .split("/")
+                    val galleryId = img[2]
+                    val thumbnailExtension = img[3].split('.')[1]
+                    val title = it.getFirstElementByClass("caption").html()
+
+                    val manga = Manga(id, galleryId, title, thumbnailExtension)
+                    MangaMapDatabase.insert(manga)
+                    popularMangas.add(manga)
+                }
+
+                popularNow.remove()
+
+                document.getElementsByClass("gallery").forEach {
+                    val id = it.getFirstElementByTag("a").attr("href").split("/")[2]
+                    val img = it.getFirstElementByTag("img")
+                        .attr("data-src")
+                        .replace("http://", "")
+                        .replace("https://", "")
+                        .split("/")
+                    val galleryId = img[2]
+                    val thumbnailExtension = img[3].split('.')[1]
+                    val title = it.getFirstElementByClass("caption").html()
+
+                    val manga = Manga(id, galleryId, title, thumbnailExtension)
+                    MangaMapDatabase.insert(manga)
+                    allManga.add(manga)
+                }
+                state = 1
+            } catch (e: Exception) {
+                e.printStackTrace()
+                state = 0
             }
+        }
 
-            popularNow.remove()
-
-            document.getElementsByClass("gallery").forEach {
-                val id = it.getFirstElementByTag("a").attr("href").split("/")[2]
-                val img = it.getFirstElementByTag("img")
-                    .attr("data-src")
-                    .replace("http://", "")
-                    .replace("https://", "")
-                    .split("/")
-                val galleryId = img[2]
-                val thumbnailExtension = img[3].split('.')[1]
-                val title = it.getFirstElementByClass("caption").html()
-
-                val manga = Manga(id, galleryId, title, thumbnailExtension)
-                MangaMapDatabase.insert(manga)
-                allManga.add(manga)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        if (state == 0) {
             StateMachine.finish()
             StateMachine.start(SERVER_UPDATED_ERROR_CONTROLLER)
+        } else if (state == 1) {
+            StateMachine.nextState()
         }
-        onFinish()
     }
 }
