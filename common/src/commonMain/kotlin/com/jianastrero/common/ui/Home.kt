@@ -9,36 +9,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.jianastrero.common.enumeration.AppStatus
 import com.jianastrero.common.enumeration.Platform
 import com.jianastrero.common.model.Manga
 import com.jianastrero.common.platform.getPlatform
+import com.jianastrero.common.statemachine.StateMachine
 import com.jianastrero.common.view.Header
 import com.jianastrero.common.view.MangaItem
 import com.jianastrero.common.view.StaggeredVerticalGrid
 import com.jianastrero.common.viewmodel.HomeViewModel
-import org.jsoup.nodes.Document
 
 internal val homeViewModel = HomeViewModel()
 
 @Composable
-fun Home(block: (AppStatus, Document?) -> Unit, onItemClick: (Manga) -> Unit) {
-
-    homeViewModel.fetch(block)
-
+fun Home() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
-        PopularManga(homeViewModel.popularMangas, onItemClick)
+        PopularManga(homeViewModel.popularMangas)
         Spacer(modifier = Modifier.height(32.dp))
-        AllManga(homeViewModel.allManga, onItemClick)
+        AllManga(homeViewModel.allManga)
     }
+
+    StateMachine.finish()
 }
 
 @Composable
-fun PopularManga(popularMangas: List<Manga>, onItemClick: (Manga) -> Unit) {
+fun PopularManga(popularMangas: List<Manga>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -51,7 +49,7 @@ fun PopularManga(popularMangas: List<Manga>, onItemClick: (Manga) -> Unit) {
         ) {
             items(popularMangas) {
                 MangaItem(it) {
-                    onItemClick(it)
+
                 }
             }
         }
@@ -59,7 +57,7 @@ fun PopularManga(popularMangas: List<Manga>, onItemClick: (Manga) -> Unit) {
 }
 
 @Composable
-fun AllManga(allManga: List<Manga>, onItemClick: (Manga) -> Unit) {
+fun AllManga(allManga: List<Manga>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -77,7 +75,7 @@ fun AllManga(allManga: List<Manga>, onItemClick: (Manga) -> Unit) {
         ) {
             allManga.forEach {
                 MangaItem(it, true, 0) {
-                    onItemClick(it)
+
                 }
             }
         }
