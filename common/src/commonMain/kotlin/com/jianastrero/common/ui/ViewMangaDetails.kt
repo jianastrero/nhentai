@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.jianastrero.common.color.Red300
 import com.jianastrero.common.controller.HOME_CONTROLLER
+import com.jianastrero.common.controller.READ_MANGA_CONTROLLER
 import com.jianastrero.common.extension.mandatoryDelay
 import com.jianastrero.common.model.MySnackbarData
 import com.jianastrero.common.model.Tag
@@ -37,7 +38,8 @@ internal val viewMangaDetailsViewModel = ViewMangaDetailsViewModel()
 fun ViewMangaDetails() {
 
     var thumb by remember { mutableStateOf<ImageBitmap?>(null) }
-    var isClicked by remember { mutableStateOf(false) }
+    var isBackClicked by remember { mutableStateOf(false) }
+    var isReadMangaClicked by remember { mutableStateOf(false) }
     var snackBarData by remember { mutableStateOf<MySnackbarData?>(null) }
 
     GlobalScope.launch {
@@ -51,8 +53,11 @@ fun ViewMangaDetails() {
         }
     }
 
-    if (isClicked) {
+    if (isBackClicked) {
         StateMachine.start(HOME_CONTROLLER)
+    }
+    if (isReadMangaClicked) {
+        StateMachine.start(READ_MANGA_CONTROLLER)
     }
 
     Box {
@@ -74,7 +79,7 @@ fun ViewMangaDetails() {
                         null,
                         modifier = Modifier
                             .clickable {
-                                isClicked = true
+                                isBackClicked = true
                             }
                     )
                 },
@@ -123,7 +128,9 @@ fun ViewMangaDetails() {
             ) {
                 Button(
                     onClick = {
-                        // TODO: Read Manga
+                        readMangaViewModel.manga = viewMangaDetailsViewModel.manga
+                        readMangaViewModel.pages = viewMangaDetailsViewModel.pages
+                        isReadMangaClicked = true
                     },
                     modifier = Modifier.weight(1f)
                 ) {

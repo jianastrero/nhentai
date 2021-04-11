@@ -9,7 +9,6 @@ import com.jianastrero.common.ui.Home
 import com.jianastrero.common.ui.Loading
 import com.jianastrero.common.ui.homeViewModel
 
-
 val FETCH_HOME = State("FETCH_HOME") { fetchHome() }
 
 val HOME = State("HOME") {
