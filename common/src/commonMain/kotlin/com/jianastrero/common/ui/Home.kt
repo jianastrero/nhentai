@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.jianastrero.common.controller.VIEW_MANGA_DETAILS_CONTROLLER
 import com.jianastrero.common.enumeration.Platform
 import com.jianastrero.common.model.Manga
 import com.jianastrero.common.platform.getPlatform
@@ -49,7 +50,7 @@ fun PopularManga(popularMangas: List<Manga>) {
         ) {
             items(popularMangas) {
                 MangaItem(it) {
-
+                    StateMachine.start(VIEW_MANGA_DETAILS_CONTROLLER)
                 }
             }
         }
@@ -75,7 +76,7 @@ fun AllManga(allManga: List<Manga>) {
         ) {
             allManga.forEach {
                 MangaItem(it, true, 0) {
-
+                    StateMachine.start(VIEW_MANGA_DETAILS_CONTROLLER)
                 }
             }
         }
