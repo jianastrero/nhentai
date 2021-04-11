@@ -1,5 +1,6 @@
 package com.jianastrero.common.controller
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import com.jianastrero.common.model.State
 import com.jianastrero.common.state.CHECK_INTERNET_CONNECTION
