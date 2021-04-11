@@ -40,6 +40,7 @@ object StateMachine {
 
     @Composable
     fun finish() {
+        println("Finish at sstate: ${currentController?.get(currentIndex)?.name}")
         currentController = null
         currentIndex = -1
     }

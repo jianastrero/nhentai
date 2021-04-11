@@ -1,15 +1,14 @@
 package com.jianastrero.common.viewmodel
 
+import androidx.compose.runtime.Composable
 import com.jianastrero.HOME_URL
 import com.jianastrero.common.database.MangaMapDatabase
-import com.jianastrero.common.enumeration.AppStatus
 import com.jianastrero.common.extension.getFirstElementByClass
 import com.jianastrero.common.extension.getFirstElementByTag
 import com.jianastrero.common.model.Manga
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 
 class HomeViewModel {
 
@@ -20,7 +19,8 @@ class HomeViewModel {
     var popularMangas = mutableListOf<Manga>()
     var allManga = mutableListOf<Manga>()
 
-    fun fetch(block: (AppStatus, Document?) -> Unit) = GlobalScope.launch {
+    @Composable
+    fun fetch(onFinish: () -> Unit) = GlobalScope.launch {
         if (System.currentTimeMillis() - lastFetch > SHOULD_REFETCH_COOLDOWN) {
             try {
                 val document = Jsoup.connect(HOME_URL).get()
@@ -64,12 +64,11 @@ class HomeViewModel {
                     allManga.add(manga)
                 }
 
-                block(AppStatus.LOADED, document)
                 lastFetch = System.currentTimeMillis()
             } catch (e: Exception) {
-                block(AppStatus.NO_INTERNET_CONNECTION, null)
                 e.printStackTrace()
             }
         }
+        onFinish()
     }
 }
