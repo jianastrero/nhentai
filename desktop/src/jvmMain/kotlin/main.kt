@@ -7,7 +7,6 @@ import com.jianastrero.common.ui.App
 fun main(args: Array<String>) {
     Window(getAppName()) {
         val window = LocalAppWindow.current
-        window.maximize()
 
         App { window.setTitle(it) }
     }
