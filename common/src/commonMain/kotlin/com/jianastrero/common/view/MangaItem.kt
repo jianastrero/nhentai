@@ -21,23 +21,26 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3, onClick: () -> Unit) {
+fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3, onClick: @Composable () -> Unit) {
 
     var thumb by remember { mutableStateOf<ImageBitmap?>(null) }
     var modifier by remember {
         mutableStateOf(
-            Modifier
-                .width(240.dp)
+            Modifier.width(240.dp)
         )
     }
+    var isClicked by remember { mutableStateOf(false) }
 
     GlobalScope.launch {
         thumb = ImageRepository.fetchImage(item.thumbnailUrl())
     }
 
     if (fillWidth) {
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
+    }
+
+    if (isClicked) {
+        onClick()
     }
 
     Box(
@@ -47,7 +50,7 @@ fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3, onClic
             modifier = modifier
                 .background(Amaranth800, RoundedCornerShape(16.dp))
                 .clickable {
-                    onClick()
+                    isClicked = true
                 }
                 .padding(8.dp)
         ) {
