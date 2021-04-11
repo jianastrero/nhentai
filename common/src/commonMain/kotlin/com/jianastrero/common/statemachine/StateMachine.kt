@@ -1,6 +1,7 @@
 package com.jianastrero.common.statemachine
 
 import androidx.compose.runtime.*
+import com.jianastrero.common.extension.mandatoryDelay
 import com.jianastrero.common.model.State
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -56,12 +57,12 @@ object StateMachine {
         var state by remember { mutableStateOf<State?>(null) }
 
         GlobalScope.launch {
-            delay(200)
+            mandatoryDelay()
             while (true) {
                 if (updateState && currentIndex != -1) {
                     state = currentController?.get(currentIndex)
                 }
-                delay(200)
+                delay(200) // skip 200ms every update
             }
         }
 

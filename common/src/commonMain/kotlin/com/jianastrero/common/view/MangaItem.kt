@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.jianastrero.common.color.Amaranth800
+import com.jianastrero.common.extension.mandatoryDelay
 import com.jianastrero.common.model.Manga
 import com.jianastrero.common.repository.ImageRepository
 import com.jianastrero.common.ui.viewMangaDetailsViewModel
@@ -31,10 +32,6 @@ fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3, onClic
         )
     }
     var isClicked by remember { mutableStateOf(false) }
-
-    GlobalScope.launch {
-        thumb = ImageRepository.fetchImage(item.thumbnailUrl())
-    }
 
     if (fillWidth) {
         modifier = Modifier.fillMaxWidth()
@@ -84,5 +81,10 @@ fun MangaItem(item: Manga, fillWidth: Boolean = false, maxLines: Int = 3, onClic
                 )
             }
         }
+    }
+
+    GlobalScope.launch {
+        mandatoryDelay()
+        thumb = ImageRepository.fetchImage(item.thumbnailUrl())
     }
 }

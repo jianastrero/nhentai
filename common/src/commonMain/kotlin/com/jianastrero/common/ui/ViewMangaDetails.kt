@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.jianastrero.common.extension.mandatoryDelay
 import com.jianastrero.common.model.Tag
 import com.jianastrero.common.repository.ImageRepository
 import com.jianastrero.common.statemachine.StateMachine
@@ -20,7 +21,6 @@ import com.jianastrero.common.view.Header
 import com.jianastrero.common.view.StaggeredVerticalGrid
 import com.jianastrero.common.viewmodel.ViewMangaDetailsViewModel
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 internal val viewMangaDetailsViewModel = ViewMangaDetailsViewModel()
@@ -31,7 +31,7 @@ fun ViewMangaDetails() {
     var thumb by remember { mutableStateOf<ImageBitmap?>(null) }
 
     GlobalScope.launch {
-        delay(200)
+        mandatoryDelay()
         thumb = ImageRepository.fetchImage(viewMangaDetailsViewModel.manga.thumbnailUrl())
     }
 
