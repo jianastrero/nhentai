@@ -1,6 +1,6 @@
 # NHentai for Desktop and Android
-[![Version Badge](https://img.shields.io/badge/Desktop-0.1.1-blue?style=for-the-badge)](https://kotlinlang.org/)
-[![Version Badge](https://img.shields.io/badge/Android-0.1.1-green?style=for-the-badge)](https://kotlinlang.org/)
+[![Desktop Version Badge](https://img.shields.io/badge/Desktop-0.1.1-blue?style=for-the-badge)](https://github.com/jianastrero/nhentai/releases/download/0.1.1/NHentai.Desktop-0.1.1.msi)
+[![Android Version Badge](https://img.shields.io/badge/Android-0.1.1-green?style=for-the-badge)](https://github.com/jianastrero/nhentai/releases/download/0.1.1/NHentai.Android-0.1.1.apk)
 
 [![Made with Kotlin Badge](https://img.shields.io/badge/Made%20with-Kotlin-orange?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
 [![Made without Pants](https://img.shields.io/badge/Made%20with-out%20Pants-red?style=for-the-badge)](https://github.com/jianastrero/nhentai)
@@ -12,6 +12,8 @@ This project is dedicated into making a Desktop and Android version of NHentai. 
 | Desktop | Android |
 |---------|---------|
 |![](nhentai_desktop.gif)|![](nhentai_android.gif)|
+|[![Download NHentai Desktop](https://img.shields.io/badge/Download%20NHentai%20Desktop-0.1.1-blue?style=for-the-badge)](https://github.com/jianastrero/nhentai/releases/download/0.1.1/NHentai.Desktop-0.1.1.msi)|[![Download NHentai Android](https://img.shields.io/badge/Download%20NHentai%20Android-0.1.1-green?style=for-the-badge)](https://github.com/jianastrero/nhentai/releases/download/0.1.1/NHentai.Android-0.1.1.apk)|
+
 
 ## Why?
 - No need to open ur browser, lol
