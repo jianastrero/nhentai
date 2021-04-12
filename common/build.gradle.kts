@@ -1,5 +1,4 @@
 import org.jetbrains.compose.compose
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("multiplatform")
@@ -55,14 +54,5 @@ android {
     defaultConfig {
         minSdkVersion(24)
         targetSdkVersion(30)
-    }
-}
-
-compose.desktop {
-    application {
-        nativeDistributions {
-            targetFormats(TargetFormat.Exe)
-            // Mac and Linux will be added on first major update
-        }
     }
 }

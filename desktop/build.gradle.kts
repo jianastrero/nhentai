@@ -26,13 +26,24 @@ kotlin {
     }
 }
 
+
 compose.desktop {
     application {
         mainClass = "MainKt"
+
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "jvm"
-            packageVersion = "1.0.0"
+
+            packageName = "NHentai Desktop"
+            description = "This project is dedicated into making a Desktop and Android version of NHentai. It utilizes HTML scalping from the main NHentai Website. It will provide the ability to browse and read manga from NHentai."
+            copyright = "Copyright (c) 2021 Jian James Astrero"
+
+            targetFormats(TargetFormat.Msi)
+
+            windows {
+                iconFile.set(project.file("icon.ico"))
+                menuGroup = "NHentai"
+            }
+            // Mac and Linux will be added on first major update
         }
     }
 }
