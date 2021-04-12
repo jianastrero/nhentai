@@ -1,5 +1,7 @@
 # NHentai for Desktop and Android
-[![Version Badge](https://img.shields.io/badge/v-0.1-green?style=for-the-badge)](https://kotlinlang.org/)
+[![Version Badge](https://img.shields.io/badge/Desktop-0.1-blue?style=for-the-badge)](https://kotlinlang.org/)
+[![Version Badge](https://img.shields.io/badge/Android-0.1-green?style=for-the-badge)](https://kotlinlang.org/)
+
 [![Made with Kotlin Badge](https://img.shields.io/badge/Made%20with-Kotlin-orange?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
 [![Made without Pants](https://img.shields.io/badge/Made%20with-out%20Pants-red?style=for-the-badge)](https://github.com/jianastrero/nhentai)
 [![NSFW](https://img.shields.io/badge/NSFW-18+-red?style=for-the-badge)](https://github.com/jianastrero/nhentai)
