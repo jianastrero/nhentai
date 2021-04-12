@@ -38,6 +38,10 @@ This project is dedicated into making a Desktop and Android version of NHentai. 
 ### If big support is given, Ambitious possible updates
 - Scalp all manga's possible from NHentai and store it in our own server
 
+## Support this Project
+I am working hard to work on this project and to provide more features into this project. If you think im doing a great job or love this project or just love manga in general, would you mind buying me a cup of coffee? :)
+[![Donate using Paypal](https://img.shields.io/badge/Donate-Paypal-green?style=for-the-badge)](https://paypal.me/jianastrero?locale.x=en_US)
+
 # [LICENSE](LICENSE)
 ___
     MIT License
